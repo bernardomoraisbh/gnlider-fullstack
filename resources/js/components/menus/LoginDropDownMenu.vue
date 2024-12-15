@@ -1,5 +1,5 @@
 <template>
-    <v-menu v-model="menu" :close-on-content-click="false" location="end">
+    <v-menu v-model="menu" :close-on-content-click="false" location="bottom">
         <template #activator="{ props }">
             <v-btn icon v-bind="props">
                 <v-icon left>
@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import { VForm } from 'vuetify/components';
+import { VForm } from 'vuetify/components'
 
 const menu = ref<boolean>(false);
 const form = ref<VForm>();
