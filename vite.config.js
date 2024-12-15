@@ -1,5 +1,5 @@
 import vue from "@vitejs/plugin-vue";
-// import Vuetify from 'vite-plugin-vuetify'
+import Vuetify from 'vite-plugin-vuetify'
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
@@ -26,8 +26,8 @@ export default defineConfig({
                 },
             },
         }),
-        // Vuetify({
-        //     autoImport: true,
-        // }),
+        Vuetify({
+            autoImport: true,
+        }),
     ],
 });
