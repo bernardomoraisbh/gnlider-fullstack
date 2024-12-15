@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return inertia('Inertia/Index');
+    return inertia('Index/Index');
 });
