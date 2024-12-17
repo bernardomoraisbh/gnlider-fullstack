@@ -15,9 +15,10 @@ createInertiaApp({
         }
         // Define layout based on path
         // It's possible to use the implemented laayout with importPage.default.layout = page.layout || MainLayout
-        importPage.default.layout = name.startsWith("Public/")
-            ? undefined
-            : MainLayout;
+        console.info(name);
+        if(name.startsWith("Public/")) {
+            importPage.default.layout = MainLayout
+        }
         return importPage;
     },
     setup({ el, App, props, plugin }) {
