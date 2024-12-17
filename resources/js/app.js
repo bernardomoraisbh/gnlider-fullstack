@@ -4,6 +4,8 @@ import { createInertiaApp } from "@inertiajs/vue3";
 import MainLayout from "./Layouts/MainLayout.vue";
 import vuetify from "./plugins/vuetify";
 
+import { ZiggyVue } from "ziggy";
+
 createInertiaApp({
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
@@ -22,6 +24,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(vuetify)
+            .use(ZiggyVue)
             .mount(el);
     },
 });

@@ -2,12 +2,12 @@
     <v-app>
         <ExternalHeader />
         <v-main>
-            <Link href="/">Main Page</Link>
+            <Link href="/listing">Listings</Link>
             <br>
-            <Link href="/show">Show Page</Link>
-            <br>
-            {{ timer }}
-            <br>
+            <Link href="/listing/create">New List</Link>
+            <div v-if="flashSuccess" class="">
+                {{ flashSuccess }}
+            </div>
             <slot />
         </v-main>
         <ExternalFooter />
@@ -17,10 +17,17 @@
 <script setup>
 import ExternalFooter from '@/components/layout/ExternalFooter.vue';
 import ExternalHeader from '@/components/layout/ExternalHeader.vue';
-import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
-const timer = ref(0)
-setInterval(() => timer.value++, 1000);
+import { Link, usePage } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+
+const page = usePage();
+
+const flashSuccess = computed(() => page.props?.flash?.success);
 </script>
 
-<style></style>
+<style scoped>
+.success {
+    background-color: green;
+    color: white;
+}
+</style>

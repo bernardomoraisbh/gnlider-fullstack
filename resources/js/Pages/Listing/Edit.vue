@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="create">
+    <form @submit.prevent="update">
         <div>
             <div>
                 <label for="beds">Beds</label>
@@ -66,7 +66,7 @@
             </div>
 
             <div>
-                <button type="submit">Create</button>
+                <button type="submit">Edit</button>
             </div>
         </div>
     </form>
@@ -76,19 +76,23 @@
 import { reactive } from 'vue'
 import { useForm } from "@inertiajs/vue3"
 
+const props = defineProps({
+    listing: Object,
+})
+
 const form = useForm({
-    beds: 0,
-    baths: 0,
-    area: 0,
-    city: null,
-    street: null,
-    code: null,
-    street_nr: null,
+    beds: props.listing.beds,
+    baths: props.listing.baths,
+    area: props.listing.area,
+    city: props.listing.city,
+    street: props.listing.street,
+    code: props.listing.code,
+    street_nr: props.listing.street_nr,
     price: 0,
 })
 
-function create() {
-    form.post('/listing');
+function update() {
+    form.put(`/listing/${props.listing.id}`);
 }
 </script>
 

@@ -2,6 +2,7 @@ import vue from "@vitejs/plugin-vue";
 import Vuetify from 'vite-plugin-vuetify'
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import path from 'path'
 
 export default defineConfig({
     plugins: [
@@ -30,4 +31,9 @@ export default defineConfig({
             autoImport: true,
         }),
     ],
+    resolve: {
+        alias: {
+            ziggy:  path.resolve('vendor/tightenco/ziggy/dist'),
+        }
+    }
 });

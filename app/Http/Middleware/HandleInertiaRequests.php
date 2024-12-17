@@ -36,7 +36,10 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            //
+            'flash' => [
+                // Pass data from the controller redirect to VUE
+                'success' => $request->session()->get('success')
+            ]
         ]);
     }
 }
