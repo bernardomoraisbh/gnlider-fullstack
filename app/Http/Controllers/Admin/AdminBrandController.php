@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 
 class AdminBrandController extends Controller
 {
@@ -61,8 +62,11 @@ class AdminBrandController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Brand $brand)
     {
-        //
+        //$this->endDate = now(); $this->save(); // Prevent the actual delete return false;
+        $brand->endDate = now();
+        $brand->save();
+        return redirect()->back()->with('success', 'Brand was deleted!');
     }
 }
