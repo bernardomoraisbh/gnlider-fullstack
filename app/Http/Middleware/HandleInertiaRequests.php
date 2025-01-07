@@ -39,7 +39,12 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 // Pass data from the controller redirect to VUE
                 'success' => $request->session()->get('success')
-            ]
+            ],
+            'user' => $request->user() ? [
+                'id' => $request->user()->id,
+                'name' => $request->user()->name,
+                'email' => $request->user()->email,
+            ] : null
         ]);
     }
 }

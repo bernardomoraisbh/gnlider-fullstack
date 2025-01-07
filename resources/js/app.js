@@ -1,5 +1,6 @@
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
+import { vMaska } from "maska/vue"
 
 import MainLayout from "./Layouts/MainLayout.vue";
 import vuetify from "./plugins/vuetify";
@@ -23,6 +24,7 @@ createInertiaApp({
     },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
+            .directive("maska", vMaska)
             .use(plugin)
             .use(vuetify)
             .use(ZiggyVue)

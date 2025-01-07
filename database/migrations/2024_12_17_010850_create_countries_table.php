@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamp('endDate')->nullable();
             $table->string('alpha2Code', 2); // ISO 3166-1 alpha-2 code
             $table->string('alpha3Code', 3); // ISO 3166-1 alpha-3 code
-            $table->number_format('numericCode'); // Numeric code
+            $table->integer('numericCode'); // Numeric code
             $table->string('name'); // Full name of the country
             $table->string('flag'); // URL or path to the flag image
             $table->string('capital'); // Capital city

@@ -56,10 +56,10 @@ const searchQuery = ref('');
 
 // Table headers
 const headers = [
-    { text: 'ID', value: 'id' },
-    { text: 'Name', value: 'name' },
-    { text: 'Description', value: 'description' },
-    { text: 'Actions', value: 'actions', sortable: false },
+    { title: 'ID', key: 'id' },
+    { title: 'Name', key: 'name' },
+    { title: 'Description', key: 'description' },
+    { title: 'Actions', key: 'actions', sortable: false },
 ];
 
 // Computed: Filtered items based on search query

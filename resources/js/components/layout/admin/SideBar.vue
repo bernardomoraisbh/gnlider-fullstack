@@ -34,6 +34,7 @@ const user = {
 
 // Sidebar menu items
 const menuItems = [
+    { title: 'Usuários', icon: 'mdi-account-search', route: 'admin.user.index' },
     { title: 'Marcas', icon: 'mdi-view-dashboard', route: 'admin.brand.index' },
     { title: 'Países', icon: 'mdi-account-group', route: 'admin.country.index' },
     { title: 'Produtos', icon: 'mdi-cog', route: 'admin.product.index' },

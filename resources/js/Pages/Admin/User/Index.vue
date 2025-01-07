@@ -42,7 +42,7 @@ defineProps({
 defineOptions({ layout: AdminLayout })
 
 const text = {
-    header: 'Países:',
+    header: 'Usuários:',
     createButton: 'CADASTRAR',
     searchPlaceholder: 'Pesquisar',
     noDataText: 'Nenhum item localizado, tente um filtro diferente.',

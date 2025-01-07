@@ -1,10 +1,9 @@
 <template>
     <v-app>
+        a
         <ExternalHeader />
         <v-main>
-            <Link href="/listing">Listings</Link>
-            <br>
-            <Link href="/listing/create">New List</Link>
+            <!-- <Link href="/listing/create">New List</Link> -->
             <div v-if="flashSuccess" class="">
                 {{ flashSuccess }}
             </div>
@@ -23,6 +22,7 @@ import { ref, computed } from 'vue';
 const page = usePage();
 
 const flashSuccess = computed(() => page.props?.flash?.success);
+const user = computed(() => page.props?.user)
 </script>
 
 <style scoped>
