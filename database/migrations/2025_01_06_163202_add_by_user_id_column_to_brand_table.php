@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('brand', function (Blueprint $table) {
+        Schema::table('brands', function (Blueprint $table) {
             $table->foreignIdFor(
                 \App\Models\Brand::class,
                 'by_user_id'
@@ -24,8 +24,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('brand', function (Blueprint $table) {
+        Schema::table('brands', function (Blueprint $table) {
             //
         });
+
+        Schema::dropIfExists('brands');
     }
 };

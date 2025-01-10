@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('product_category', function (Blueprint $table) {
+        Schema::table('product_categories', function (Blueprint $table) {
             $table->foreignIdFor(
                 \App\Models\ProductCategory::class,
                 'by_user_id'
@@ -24,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('product_category', function (Blueprint $table) {
+        Schema::table('product_categories', function (Blueprint $table) {
             //
         });
     }

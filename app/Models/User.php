@@ -20,8 +20,19 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'sur_name',
         'email',
         'password',
+        'birth_date',
+        'email',
+        'cpf',
+        'cnpj',
+        'cellphone',
+        'regional_council_number',
+        'regional_council_state_id',
+        'state_inscription_number',
+        'enable_user_login',
+        'administrator',
     ];
 
     /**
@@ -69,5 +80,106 @@ class User extends Authenticatable
             \App\Models\Brand::class,
             'by_user_id'
         );
+    }
+
+    /**
+     * Accessor for birthDate (JSON camelCase).
+     *
+     * @return string|null
+     */
+    public function getBirthDateAttribute(): ?string
+    {
+        return $this->attributes['birth_date'];
+    }
+
+    /**
+     * Accessor for birthDate (JSON camelCase).
+     *
+     * @return string|null
+     */
+    public function getRegionalCouncilNumberAttribute(): ?string
+    {
+        return $this->attributes['regional_council_number'];
+    }
+
+    /**
+     * Accessor for stateInscriptionNumber (JSON camelCase).
+     *
+     * @return string|null
+     */
+    public function getStateInscriptionNumberAttribute(): ?string
+    {
+        return $this->attributes['state_inscription_number'];
+    }
+
+    /**
+     * Accessor for regionalCouncilStateId (JSON camelCase).
+     *
+     * @return string|null
+     */
+    public function getRegionalCouncilStateIdAttribute(): ?string
+    {
+        return $this->attributes['regional_council_state_id'];
+    }
+
+
+    /**
+     * Accessor for enableUserLogin (JSON camelCase).
+     *
+     * @return bool|null
+     */
+    public function getEnableUserLoginAttribute(): ?bool
+    {
+        return $this->attributes['enable_user_login'];
+    }
+
+    /**
+     * Mutator for birthDate (converts JSON camelCase to DB snake_case).
+     *
+     * @param string|null $value
+     */
+    public function setBirthDateAttribute(?string $value): void
+    {
+        $this->attributes['birth_date'] = $value;
+    }
+
+    /**
+     * Mutator for birthDate (converts JSON camelCase to DB snake_case).
+     *
+     * @param string|null $value
+     */
+    public function setRegionalCouncilNumberAttribute(?string $value): void
+    {
+        $this->attributes['regional_council_number'] = $value;
+    }
+
+    /**
+     * Accessor for birthDate (converts JSON camelCase to DB snake_case).
+     *
+     * @return string|null
+     */
+    public function setStateInscriptionNumberAttribute(?string $value): void
+    {
+        $this->attributes['state_inscription_number'] = $value;
+    }
+
+    /**
+     * Accessor for birthDate (converts JSON camelCase to DB snake_case).
+     *
+     * @return string|null
+     */
+    public function setRegionalCouncilStateIdAttribute(?string $value): void
+    {
+        $this->attributes['regional_council_state_id'] = $value;
+    }
+
+    /**
+     * Accessor for enableUserLogin (converts JSON camelCase to DB snake_case).
+     *
+     * @return string|null
+     */
+    public function setEnableUserLoginAttribute(?bool $value): void
+    {
+        $this->attributes['enable_user_login'] = $value;
     }
 }

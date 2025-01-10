@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use Date;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Date as FacadesDate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -24,11 +26,21 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => 'Bernardo',
+            'sur_name' => 'Morais',
+            'birth_date' => FacadesDate::createFromDate(1998, 01, 23),
+            'email' => 'bernardomalfredo@hotmail.com',
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('password#123$'),
+            'cpf' => '01971206601',
+            'cnpj' => null,
+            'cellphone' => '31995195805',
+            'regional_council_number' => null,
+            'state_inscription_number' => null,
+            'enable_user_login' => true,
+            'administrator' => true,
             'remember_token' => Str::random(10),
+            'regional_council_state_id' => null
         ];
     }
 

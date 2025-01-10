@@ -15,7 +15,7 @@ class AdminUserController extends Controller
     {
         return inertia('Admin/User/Index',
         [
-            'message' => 'Hello from Laravel!'
+            'users' => User::all()
         ]);
     }
 
@@ -46,17 +46,26 @@ class AdminUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return inertia('Admin/User/Edit',[
+            'user' => $user
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $user->update(
+            $request->validate([
+                'name' => 'required',
+                'cpf' => 'nullable|cpf|unique:users',
+                'cnpj' => 'nullable|cnpj|unique:users',
+            ])
+        );
+        return redirect()->route('admin.user.index')->with('success', 'User saved!');
     }
 
     /**

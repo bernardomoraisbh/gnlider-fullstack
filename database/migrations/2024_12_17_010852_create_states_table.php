@@ -21,6 +21,11 @@ return new class extends Migration
             $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('regional_council_state_id')->nullable()->default(null);
+            $table->foreign('regional_council_state_id')->references('id')->on('states');
+        });
     }
 
     /**
@@ -28,6 +33,14 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('states', function (Blueprint $table) {
+            $table->dropForeign(['country_id']);
+            $table->dropColumn('country_id');
+        });
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['regional_council_state_id']);
+            $table->dropColumn('regional_council_state_id');
+        });
         Schema::dropIfExists('states');
     }
 };

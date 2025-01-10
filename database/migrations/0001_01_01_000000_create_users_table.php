@@ -14,9 +14,18 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('sur_name')->nullable();
+            $table->date('birth_date');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('cpf', 11)->nullable()->unique();
+            $table->string('cnpj', 14)->nullable()->unique();
+            $table->string('cellphone');
+            $table->string('regional_council_number')->nullable();
+            $table->string('state_inscription_number')->nullable();
+            $table->boolean('enable_user_login')->default(false);
+            $table->boolean('administrator')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
