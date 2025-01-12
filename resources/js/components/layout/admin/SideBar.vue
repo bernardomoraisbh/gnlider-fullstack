@@ -28,8 +28,8 @@ const rail = ref(true);
 
 // User Data
 const user = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
+    name: 'Bernardo Morais',
+    email: 'bernardomalfredo@hotmail.com',
 };
 
 // Sidebar menu items
@@ -38,7 +38,7 @@ const menuItems = [
     { title: 'Marcas', icon: 'mdi-view-dashboard', route: 'admin.brand.index' },
     { title: 'Países', icon: 'mdi-account-group', route: 'admin.country.index' },
     { title: 'Produtos', icon: 'mdi-cog', route: 'admin.product.index' },
-    { title: 'Sexo', icon: 'mdi-cog', route: 'admin.sex.index' },
+    { title: 'Carrinhos', icon: 'mdi-cog', route: 'admin.sex.index' },
 ];
 
 // Navigation Handlers

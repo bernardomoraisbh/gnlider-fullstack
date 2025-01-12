@@ -15,7 +15,7 @@ class AdminBrandController extends Controller
     {
         return inertia('Admin/Brand/Index',
         [
-            'message' => 'Hello from Laravel!'
+            'brands' => Brand::all()
         ]);
     }
 
@@ -46,9 +46,11 @@ class AdminBrandController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Brand $brand)
     {
-        //
+        return inertia('Admin/Brand/Edit',[
+            'brand' => $brand
+        ]);
     }
 
     /**

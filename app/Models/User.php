@@ -134,6 +134,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Accessor for enableUserLogin (JSON camelCase).
+     *
+     * @return bool|null
+     */
+    public function getAdministratorAttribute(): ?bool
+    {
+        return $this->attributes['administrator'];
+    }
+
+    /**
      * Mutator for birthDate (converts JSON camelCase to DB snake_case).
      *
      * @param string|null $value
@@ -181,5 +191,31 @@ class User extends Authenticatable
     public function setEnableUserLoginAttribute(?bool $value): void
     {
         $this->attributes['enable_user_login'] = $value;
+    }
+
+    /**
+     * Accessor for enableUserLogin (converts JSON camelCase to DB snake_case).
+     *
+     * @return string|null
+     */
+    public function setAdministratorAttribute(?bool $value): void
+    {
+        $this->attributes['administrator'] = $value;
+    }
+
+    /**
+     * Converter from snake case users to cammel case users
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $snakeToCamel = function ($key) {
+            return lcfirst(str_replace('_', '', ucwords($key, '_')));
+        };
+        $attributes = parent::toArray();
+        return collect($attributes)
+            ->mapWithKeys(fn($value, $key) => [$snakeToCamel($key) => $value])
+            ->toArray();
     }
 }

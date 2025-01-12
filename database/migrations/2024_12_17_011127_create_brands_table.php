@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->timestamp('endDate')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->string('name')->nullable(false);
-            $table->char('firstChar', 1);
+            $table->char('first_char', 1);
         });
     }
 

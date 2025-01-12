@@ -9,7 +9,7 @@
 
             <!-- Create Button -->
             <v-col cols="auto">
-                <v-btn color="primary" @click="createItem" prepend-icon="mdi-plus" :text="text.createButton" block />
+                <v-btn color="primary" @click="createBrand" prepend-icon="mdi-plus" :text="text.createButton" block />
             </v-col>
         </v-row>
     </v-form>
@@ -26,14 +26,16 @@
 
         <!-- Actions Column -->
         <template v-slot:[`item.actions`]="{ item }">
-            <v-btn icon="mdi-pencil" color="primary" variant="plain" @click="editItem(item)" />
-            <v-btn icon="mdi-delete" color="error" variant="plain" @click="deleteItem(item)" />
+            <v-btn icon="mdi-pencil" color="primary" variant="plain" @click="editBrand(item)" />
+            <v-btn icon="mdi-delete" color="error" variant="plain" @click="deleteBrand(item)" />
         </template>
     </v-data-table>
 </template>
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { ref, computed } from 'vue';
+import { router } from '@inertiajs/vue3';
+import { route } from "ziggy";
 
 defineProps({
     message: String
@@ -74,19 +76,15 @@ const filteredItems = computed(() => {
 });
 
 // Methods
-const createItem = () => {
-    console.log('Create Item');
+const createBrand = () => {
+    router.visit(route(`admin.brand.create`, { user: brand.id }));
 };
 
-const editItem = (item) => {
-    console.log('Edit Item:', item);
+const editBrand = (brand) => {
+    router.visit(route(`admin.brand.edit`, { user: brand.id }));
 };
 
-const deleteItem = (item) => {
-    const index = items.value.findIndex((i) => i.id === item.id);
-    if (index !== -1) {
-        items.value.splice(index, 1);
-        console.log('Deleted Item:', item);
-    }
+const deleteBrand = (brand) => {
+    console.log('Delete Brand:', brand);
 };
 </script>

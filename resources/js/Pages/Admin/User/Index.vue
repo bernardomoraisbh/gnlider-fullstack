@@ -2,7 +2,7 @@
     <v-form>
         <v-row align="start" justify="space-between" class="mb-4">
             <!-- Search Input -->
-            <v-col cols="12" md="8">
+            <v-col cols="12">
                 <v-text-field v-model="searchQuery" :label="textBr.searchPlaceholder" variant="outlined"
                     prepend-inner-icon="mdi-magnify" density="compact" clearable />
             </v-col>
@@ -21,8 +21,8 @@
 
         <!-- Actions Column -->
         <template v-slot:[`item.actions`]="{ item }">
-            <v-btn icon="mdi-pencil" color="primary" variant="plain" @click="editItem(item)" />
-            <v-btn icon="mdi-delete" color="error" variant="plain" @click="deleteItem(item)" />
+            <v-btn icon="mdi-pencil" color="primary" variant="plain" @click="editUser(item)" />
+            <v-btn icon="mdi-delete" color="error" variant="plain" @click="deleteUser(item)" />
         </template>
     </v-data-table>
 </template>
@@ -30,6 +30,8 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { ref, computed } from 'vue';
+import { router } from '@inertiajs/vue3';
+import { route } from "ziggy";
 
 const props = defineProps({
     users: Array
@@ -47,6 +49,7 @@ const textBr = {
     columnHeaderEmail: "Email",
     columnHeaderEnabledUser: "Usuário Habilitado",
     columnHeaderAdmin: "Administrador",
+    columnHeaderActions: "Ações",
 }
 
 // Sample data
@@ -58,11 +61,12 @@ const searchQuery = ref('');
 // Table headers
 const headers = [
     { title: 'ID', key: 'id' },
-    { title: textBr.name, key: 'name', value: item => `${item.name} ${item.surName}` },
+    { title: textBr.columnHeaderName, key: 'name', value: item => `${item.name} ${item.surName}` },
     { title: textBr.columnHeaderCpfCnpj, key: 'cpf', value: item => `${item.cpf ?? item.cnpj}`, sortable: false },
     { title: textBr.columnHeaderEmail, key: 'email', sortable: false },
     { title: textBr.columnHeaderEnabledUser, key: 'enableUserLogin' },
     { title: textBr.columnHeaderAdmin, key: 'administrator' },
+    { title: textBr.columnHeaderActions, key: 'actions', sortable: false },
 ];
 
 // Computed: Filtered items based on search query
@@ -77,8 +81,8 @@ const filteredItems = computed(() => {
     );
 });
 
-const editItem = (item) => {
-    console.log('Edit User:', item);
+const editUser = (user) => {
+    router.visit(route(`admin.user.edit`, { user: user.id }));
 };
 
 const deleteUser = (item) => {

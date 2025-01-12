@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Brand extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+        'end_date',
+        'first_char',
+    ];
+
     public function owner(): BelongsTo {
         return $this->belongsTo(\App\Models\User::class, 'by_user_id');
     }
