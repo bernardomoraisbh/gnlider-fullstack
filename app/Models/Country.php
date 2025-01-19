@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Country extends Model
 {
     protected $fillable = [
-        'endDate', 'alpha2Code', 'alpha3Code', 'numericCode', 'name', 'flag', 'currency', 'phonePrefix'
+        'end_date',
+        'alpha2_code',
+        'alpha3_code',
+        'numeric_code',
+        'code',
+        'name',
+        'flag',
+        'currency',
+        'phone_prefix'
     ];
 
     public function states(): HasMany

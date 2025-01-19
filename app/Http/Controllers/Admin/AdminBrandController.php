@@ -24,7 +24,7 @@ class AdminBrandController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Admin/Brand/Create', []);
     }
 
     /**
@@ -32,7 +32,11 @@ class AdminBrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $brand = Brand::make($request->validate([
+            'name' => 'required',
+        ]));
+        $brand->save();
+        return redirect()->route('admin.brand.index')->with('success', 'Brand saved!');
     }
 
     /**

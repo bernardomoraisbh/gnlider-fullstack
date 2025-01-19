@@ -15,7 +15,7 @@
     </v-form>
 
     <!-- Data Table -->
-    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="5"
+    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10"
         :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="textBr.noDataText">
         <template v-slot:top>
             <v-toolbar flat>
@@ -51,7 +51,6 @@ const textBr = {
     searchPlaceholder: 'Pesquisar',
     noDataText: 'Nenhum item localizado, tente um filtro diferente.',
     columnHeaderName: "Nome",
-    columnHeaderDescription: "Descrição",
     columnHeaderActions: "Ações",
 }
 
@@ -62,7 +61,6 @@ const searchQuery = ref('');
 const headers = [
     { title: 'ID', key: 'id' },
     { title: textBr.columnHeaderName, key: 'name' },
-    { title: textBr.columnHeaderDescription, key: 'description' },
     { title: textBr.columnHeaderActions, key: 'actions', sortable: false },
 ];
 

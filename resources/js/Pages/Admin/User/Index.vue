@@ -10,7 +10,7 @@
     </v-form>
 
     <!-- Data Table -->
-    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="5"
+    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10"
         :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="textBr.noDataText">
         <template v-slot:top>
             <v-toolbar flat>

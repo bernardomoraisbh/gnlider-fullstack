@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 
 class AdminCountryController extends Controller
 {
@@ -14,7 +15,7 @@ class AdminCountryController extends Controller
     {
         return inertia('Admin/Country/Index',
         [
-            'message' => 'Hello from Laravel!'
+            'countries' => Country::all()
         ]);
     }
 
@@ -23,7 +24,7 @@ class AdminCountryController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Admin/Country/Create',[]);
     }
 
     /**
@@ -45,9 +46,11 @@ class AdminCountryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Country $country)
     {
-        //
+        return inertia('Admin/Country/Edit',[
+            'country' => $country
+        ]);
     }
 
     /**
@@ -61,8 +64,10 @@ class AdminCountryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Country $country)
     {
-        //
+        $country->endDate = now();
+        $country->save();
+        return redirect()->back()->with('success', 'Country was deleted!');
     }
 }

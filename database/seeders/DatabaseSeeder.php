@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             BrandsTableSeeder::class,
+            CountrySeeder::class
         ]);
     }
 }

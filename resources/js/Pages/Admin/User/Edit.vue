@@ -13,7 +13,7 @@
         <v-col cols="12">
             <v-card>
                 <v-card-item>
-                    Usuários
+                    Dados do Usuário
                 </v-card-item>
                 <v-card-text id="profile-pic" class="d-flex">
                     <v-avatar color="surface-variant" class="me-6" size="100" rounded="lg">

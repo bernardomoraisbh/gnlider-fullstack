@@ -3,23 +3,23 @@
         <v-row align="start" justify="space-between" class="mb-4">
             <!-- Search Input -->
             <v-col cols="12" md="8">
-                <v-text-field v-model="searchQuery" :label="text.searchPlaceholder" variant="outlined"
+                <v-text-field v-model="searchQuery" :label="textBr.searchPlaceholder" variant="outlined"
                     prepend-inner-icon="mdi-magnify" density="compact" clearable />
             </v-col>
 
             <!-- Create Button -->
             <v-col cols="auto">
-                <v-btn color="primary" @click="createItem" prepend-icon="mdi-plus" :text="text.createButton" block />
+                <v-btn color="primary" @click="createCountry" prepend-icon="mdi-plus" :text="textBr.createButton" block />
             </v-col>
         </v-row>
     </v-form>
 
     <!-- Data Table -->
-    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="5"
-        :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="text.noDataText">
+    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10"
+        :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="textBr.noDataText">
         <template v-slot:top>
             <v-toolbar flat>
-                <v-toolbar-title>{{ text.header }}</v-toolbar-title>
+                <v-toolbar-title>{{ textBr.header }}</v-toolbar-title>
                 <v-spacer></v-spacer>
             </v-toolbar>
         </template>
@@ -34,22 +34,25 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { ref, computed } from 'vue';
+import { router } from '@inertiajs/vue3';
+import { route } from "ziggy";
 
-defineProps({
-    message: String
+const props = defineProps({
+    countries: Array
 })
 
 defineOptions({ layout: AdminLayout })
 
-const text = {
+const textBr = {
     header: 'Países:',
     createButton: 'CADASTRAR',
     searchPlaceholder: 'Pesquisar',
     noDataText: 'Nenhum item localizado, tente um filtro diferente.',
+    columnHeaderName: "Nome",
+    columnHeaderAlpha2: "Alpha 2",
+    columnHeaderAlpha3: "Alpha 3",
+    columnHeaderActions: "Ações",
 }
-
-// Sample data
-const items = ref([{ id: 1, name: 'Item 1', description: 'Descricao Item 1' },]);
 
 // Search query
 const searchQuery = ref('');
@@ -57,15 +60,17 @@ const searchQuery = ref('');
 // Table headers
 const headers = [
     { title: 'ID', key: 'id' },
-    { title: 'Name', key: 'name' },
-    { title: 'Description', key: 'description' },
-    { title: 'Actions', key: 'actions', sortable: false },
+    { title: textBr.columnHeaderName, key: 'name' },
+    { title: textBr.columnHeaderAlpha2, key: 'alpha2Code' },
+    { title: textBr.columnHeaderAlpha3, key: 'alpha3Code' },
+    { title: textBr.columnHeaderActions, key: 'actions', sortable: false },
 ];
 
 // Computed: Filtered items based on search query
 const filteredItems = computed(() => {
-    if (!searchQuery.value) return items.value;
-    return items.value.filter((item) =>
+    console.log(props.countries);
+    if (!searchQuery.value) return props.countries;
+    return props.countries.filter((item) =>
         Object.values(item)
             .join(' ')
             .toLowerCase()
@@ -74,19 +79,15 @@ const filteredItems = computed(() => {
 });
 
 // Methods
-const createItem = () => {
-    console.log('Create Item');
+const createCountry = () => {
+    router.visit(route(`admin.country.create`));
 };
 
-const editItem = (item) => {
-    console.log('Edit Item:', item);
+const editItem = (country) => {
+    router.visit(route(`admin.country.edit`, { country: country.id }));
 };
 
-const deleteItem = (item) => {
-    const index = items.value.findIndex((i) => i.id === item.id);
-    if (index !== -1) {
-        items.value.splice(index, 1);
-        console.log('Deleted Item:', item);
-    }
+const deleteItem = (country) => {
+    console.log('Delete Brand:', country);
 };
 </script>
