@@ -17,8 +17,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleInertiaRequests::class,
             TransformInputKeys::class, // Add your middleware here
-        ]);
-        $middleware->api(append: [
             TransformOutputKeys::class,
         ]);
         $middleware->validateCsrfTokens(except: [
