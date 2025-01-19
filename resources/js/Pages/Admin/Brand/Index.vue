@@ -3,23 +3,23 @@
         <v-row align="start" justify="space-between" class="mb-4">
             <!-- Search Input -->
             <v-col cols="12" md="8">
-                <v-text-field v-model="searchQuery" :label="text.searchPlaceholder" variant="outlined"
+                <v-text-field v-model="searchQuery" :label="textBr.searchPlaceholder" variant="outlined"
                     prepend-inner-icon="mdi-magnify" density="compact" clearable />
             </v-col>
 
             <!-- Create Button -->
             <v-col cols="auto">
-                <v-btn color="primary" @click="createBrand" prepend-icon="mdi-plus" :text="text.createButton" block />
+                <v-btn color="primary" @click="createBrand" prepend-icon="mdi-plus" :text="textBr.createButton" block />
             </v-col>
         </v-row>
     </v-form>
 
     <!-- Data Table -->
     <v-data-table :headers="headers" :items="filteredItems" :items-per-page="5"
-        :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="text.noDataText">
+        :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="textBr.noDataText">
         <template v-slot:top>
             <v-toolbar flat>
-                <v-toolbar-title>{{ text.header }}</v-toolbar-title>
+                <v-toolbar-title>{{ textBr.header }}</v-toolbar-title>
                 <v-spacer></v-spacer>
             </v-toolbar>
         </template>
@@ -37,21 +37,23 @@ import { ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { route } from "ziggy";
 
-defineProps({
-    message: String
+const props = defineProps({
+    brands: Array
 })
 
-defineOptions({ layout: AdminLayout })
+defineOptions({
+    layout: AdminLayout
+})
 
-const text = {
+const textBr = {
     header: 'Marcas:',
     createButton: 'CADASTRAR',
     searchPlaceholder: 'Pesquisar',
     noDataText: 'Nenhum item localizado, tente um filtro diferente.',
+    columnHeaderName: "Nome",
+    columnHeaderDescription: "Descrição",
+    columnHeaderActions: "Ações",
 }
-
-// Sample data
-const items = ref([{ id: 1, name: 'Item 1', description: 'Descricao Item 1' },]);
 
 // Search query
 const searchQuery = ref('');
@@ -59,15 +61,16 @@ const searchQuery = ref('');
 // Table headers
 const headers = [
     { title: 'ID', key: 'id' },
-    { title: 'Name', key: 'name' },
-    { title: 'Description', key: 'description' },
-    { title: 'Actions', key: 'actions', sortable: false },
+    { title: textBr.columnHeaderName, key: 'name' },
+    { title: textBr.columnHeaderDescription, key: 'description' },
+    { title: textBr.columnHeaderActions, key: 'actions', sortable: false },
 ];
 
 // Computed: Filtered items based on search query
 const filteredItems = computed(() => {
-    if (!searchQuery.value) return items.value;
-    return items.value.filter((item) =>
+    console.log(props.brands);
+    if (!searchQuery.value) return props.brands;
+    return props.brands.filter((item) =>
         Object.values(item)
             .join(' ')
             .toLowerCase()
@@ -77,11 +80,11 @@ const filteredItems = computed(() => {
 
 // Methods
 const createBrand = () => {
-    router.visit(route(`admin.brand.create`, { user: brand.id }));
+    router.visit(route(`admin.brand.create`));
 };
 
 const editBrand = (brand) => {
-    router.visit(route(`admin.brand.edit`, { user: brand.id }));
+    router.visit(route(`admin.brand.edit`, { brand: brand.id }));
 };
 
 const deleteBrand = (brand) => {
