@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamp('endDate')->nullable();
             $table->string('name');
             $table->string('abbreviation');
-            $table->string('phonePrefix');
+            $table->string('phone_prefix');
             $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });

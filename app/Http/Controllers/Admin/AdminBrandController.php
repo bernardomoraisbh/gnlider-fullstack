@@ -11,11 +11,12 @@ class AdminBrandController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->input('itemsPerPage', 10);
         return inertia('Admin/Brand/Index',
         [
-            'brands' => Brand::all()
+            'brands' => Brand::orderByDesc('created_at')->paginate($perPage)
         ]);
     }
 

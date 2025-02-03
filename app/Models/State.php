@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class State extends Model
 {
     protected $fillable = [
-        'end_date', 'name', 'abbreviation', 'phone_prefix', 'country_id'
+        'end_date',
+        'name',
+        'abbreviation',
+        'phone_prefix',
+        'country_id'
     ];
 
     public function owner(): BelongsTo {

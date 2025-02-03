@@ -15,7 +15,7 @@
                 <v-card-item>
                     {{ text.brandDetails }}
                 </v-card-item>
-                <v-card-text id="user-data-form">
+                <v-card-text id="brand-data-form">
                     <v-form>
                         <v-row justify="space-between">
                             <v-col cols="12" md="10">

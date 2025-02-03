@@ -15,8 +15,9 @@
     </v-form>
 
     <!-- Data Table -->
-    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10"
-        :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="textBr.noDataText">
+    <v-data-table-server :headers="headers" :items="brands?.data" :items-length="brands?.total" :items-per-page="pagination.itemsPerPage"
+        :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="textBr.noDataText"
+        @update:options="loadBrands" :loading="loading">
         <template v-slot:top>
             <v-toolbar flat>
                 <v-toolbar-title>{{ textBr.header }}</v-toolbar-title>
@@ -29,7 +30,7 @@
             <v-btn icon="mdi-pencil" color="primary" variant="plain" @click="editBrand(item)" />
             <v-btn icon="mdi-delete" color="error" variant="plain" @click="deleteBrand(item)" />
         </template>
-    </v-data-table>
+    </v-data-table-server>
 </template>
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -38,7 +39,7 @@ import { router } from '@inertiajs/vue3';
 import { route } from "ziggy";
 
 const props = defineProps({
-    brands: Array
+    brands: Object
 })
 
 defineOptions({
@@ -54,6 +55,12 @@ const textBr = {
     columnHeaderActions: "Ações",
 }
 
+const loading = ref(false);
+const pagination = ref({
+    page: 1,
+    itemsPerPage: 10
+});
+
 // Search query
 const searchQuery = ref('');
 
@@ -66,9 +73,9 @@ const headers = [
 
 // Computed: Filtered items based on search query
 const filteredItems = computed(() => {
-    console.log(props.brands);
-    if (!searchQuery.value) return props.brands;
-    return props.brands.filter((item) =>
+    console.log(props?.brands);
+    if (!searchQuery.value) return props.brands?.data;
+    return props.brands?.data.filter((item) =>
         Object.values(item)
             .join(' ')
             .toLowerCase()
@@ -76,6 +83,26 @@ const filteredItems = computed(() => {
     );
 });
 
+const loadBrands = (options) => {
+    loading.value = true;
+    pagination.value.page = options.page;
+    pagination.value.itemsPerPage = options.itemsPerPage;
+
+    router.get(route('admin.brand.index'),
+        {
+            page: pagination.value.page,
+            itemsPerPage: pagination.value.itemsPerPage
+        },
+        {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (page) => {
+                props.brands.value = page.props.brands;
+                loading.value = false;
+            }
+        }
+    );
+};
 // Methods
 const createBrand = () => {
     router.visit(route(`admin.brand.create`));

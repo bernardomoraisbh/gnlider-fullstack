@@ -16,7 +16,7 @@
                     {{ textBr.countryDetails }}
                 </v-card-item>
                 <v-card-text id="country-data-form">
-                    <v-form ref="countryDataForm">
+                    <v-form>
                         <v-row justify="space-between">
                             <v-col cols="12" md="2">
                                 <v-text-field v-model="formData.alpha2Code"
@@ -62,15 +62,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Link, useForm } from "@inertiajs/vue3";
 import { route } from "ziggy";
-import { VForm } from 'vuetify/components'
 
 defineOptions({ layout: AdminLayout })
-
-const countryDataForm = ref<VForm>();
 
 type Country = {
     id: number;
@@ -85,10 +81,12 @@ type Country = {
     phonePrefix: string;
 };
 
+const props = defineProps<{ country: Country }>()
+
 const textBr = {
     header: 'País:',
-    createButton: 'CADASTRAR',
-    submit: "Cadastrar",
+    createButton: 'SALVAR',
+    submit: "Salvar",
     name: "Nome",
     alpha2Code: "Código Alpha 2",
     alpha3Code: "Código Alpha 3",
@@ -101,34 +99,13 @@ const textBr = {
     countryDetails: "Dados do País"
 }
 
-function createCountry(): Country {
-    return {
-        id: 0,
-        name: null,
-        alpha2Code: '',
-        alpha3Code: '',
-        numericCode: null,
-        code: '',
-        flag: '',
-        capital: '',
-        currency: '',
-        phonePrefix: '',
-    };
-}
-
 const formData = useForm({
-    ...createCountry(),
+    ...props.country,
 })
 
 // Methods
-async function createCountryAction() {
-    countryDataForm.value.resetValidation();
-    const { valid } = await countryDataForm.value.validate()
-    console.log(valid);
-    if (!valid) {
-        return;
-    }
-    formData.post(route('admin.country.store'));
+const createCountryAction = () => {
+    formData.post(route('admin.country.update'));
 };
 </script>
 
