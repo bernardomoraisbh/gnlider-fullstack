@@ -3,7 +3,7 @@
         <v-row align="start" justify="space-between" class="mb-4">
             <!-- Search Input -->
             <v-col cols="12" md="8">
-                <v-text-field v-model="searchQuery" :label="textBr.searchPlaceholder" variant="outlined"
+                <v-text-field v-model="filterForm.name" :label="textBr.searchPlaceholder" variant="outlined"
                     prepend-inner-icon="mdi-magnify" density="compact" clearable />
             </v-col>
 
@@ -15,8 +15,9 @@
     </v-form>
 
     <!-- Data Table -->
-    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10"
-        :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="textBr.noDataText">
+    <v-data-table-server :headers="headers" :items="countries?.data" :items-length="countries?.total" :items-per-page="pagination.itemsPerPage"
+        :footer-props="{ showFirstLastPage: true }" class="elevation-1" :no-data-text="textBr.noDataText"
+        @update:options="loadCountries" :loading="loading">
         <template v-slot:top>
             <v-toolbar flat>
                 <v-toolbar-title>{{ textBr.header }}</v-toolbar-title>
@@ -29,16 +30,17 @@
             <v-btn icon="mdi-pencil" color="primary" variant="plain" @click="editItem(item)" />
             <v-btn icon="mdi-delete" color="error" variant="plain" @click="deleteItem(item)" />
         </template>
-    </v-data-table>
+    </v-data-table-server>
 </template>
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { ref, computed } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import { route } from "ziggy";
 
 const props = defineProps({
-    countries: Array
+    countries: Object,
+    filters: Object,
 })
 
 defineOptions({ layout: AdminLayout })
@@ -54,8 +56,18 @@ const textBr = {
     columnHeaderActions: "Ações",
 }
 
+const loading = ref(false);
+const pagination = ref({
+    page: 1,
+    itemsPerPage: 10
+});
+
+
 // Search query
-const searchQuery = ref('');
+const filterForm = useForm({
+    name: props.filters.name ?? null,
+    code: props.filters.code ?? null,
+});
 
 // Table headers
 const headers = [
@@ -66,17 +78,26 @@ const headers = [
     { title: textBr.columnHeaderActions, key: 'actions', sortable: false },
 ];
 
-// Computed: Filtered items based on search query
-const filteredItems = computed(() => {
-    console.log(props.countries);
-    if (!searchQuery.value) return props.countries;
-    return props.countries.filter((item) =>
-        Object.values(item)
-            .join(' ')
-            .toLowerCase()
-            .includes(searchQuery.value.toLowerCase())
+const loadCountries = (options) => {
+    loading.value = true;
+    pagination.value.page = options.page;
+    pagination.value.itemsPerPage = options.itemsPerPage;
+
+    router.get(route('admin.country.index'),
+        {
+            page: pagination.value.page,
+            itemsPerPage: pagination.value.itemsPerPage
+        },
+        {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (page) => {
+                props.countries.value = page.props.countries;
+                loading.value = false;
+            }
+        }
     );
-});
+};
 
 // Methods
 const createCountry = () => {
@@ -90,4 +111,9 @@ const editItem = (country) => {
 const deleteItem = (country) => {
     console.log('Delete Brand:', country);
 };
+
+function clear() {
+    filterForm.name = null;
+    filterForm.code = null;
+}
 </script>

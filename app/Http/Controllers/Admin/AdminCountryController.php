@@ -11,11 +11,17 @@ class AdminCountryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->input('itemsPerPage', 10);
+        $filters = $request->only(['name', 'code', 'itemsPerPage']);
         return inertia('Admin/Country/Index',
         [
-            'countries' => Country::all()
+            'filters' => $filters,
+            'countries' => Country::latest()
+                ->filter($filters)
+                ->paginate($perPage)
+                ->withQueryString()
         ]);
     }
 

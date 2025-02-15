@@ -14,9 +14,14 @@ class AdminBrandController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('itemsPerPage', 10);
+        $filters = $request->only(['name', 'itemsPerPage']);
         return inertia('Admin/Brand/Index',
         [
-            'brands' => Brand::orderByDesc('created_at')->paginate($perPage)
+            'filters' => $filters,
+            'brands' => Brand::latest()
+                ->filter($filters)
+                ->paginate($perPage)
+                ->withQueryString()
         ]);
     }
 

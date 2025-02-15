@@ -3,7 +3,7 @@
         <v-row align="start" justify="space-between" class="mb-4">
             <!-- Search Input -->
             <v-col cols="12" md="8">
-                <v-text-field v-model="searchQuery" :label="textBr.searchPlaceholder" variant="outlined"
+                <v-text-field v-model="filterForm.name" :label="textBr.searchPlaceholder" variant="outlined"
                     prepend-inner-icon="mdi-magnify" density="compact" clearable />
             </v-col>
 
@@ -35,11 +35,12 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { ref, computed } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import { route } from "ziggy";
 
 const props = defineProps({
-    brands: Object
+    brands: Object,
+    filters: Object,
 })
 
 defineOptions({
@@ -62,7 +63,9 @@ const pagination = ref({
 });
 
 // Search query
-const searchQuery = ref('');
+const filterForm = useForm({
+    name: props.filters.name ?? null,
+});
 
 // Table headers
 const headers = [
@@ -70,18 +73,6 @@ const headers = [
     { title: textBr.columnHeaderName, key: 'name' },
     { title: textBr.columnHeaderActions, key: 'actions', sortable: false },
 ];
-
-// Computed: Filtered items based on search query
-const filteredItems = computed(() => {
-    console.log(props?.brands);
-    if (!searchQuery.value) return props.brands?.data;
-    return props.brands?.data.filter((item) =>
-        Object.values(item)
-            .join(' ')
-            .toLowerCase()
-            .includes(searchQuery.value.toLowerCase())
-    );
-});
 
 const loadBrands = (options) => {
     loading.value = true;
@@ -115,4 +106,8 @@ const editBrand = (brand) => {
 const deleteBrand = (brand) => {
     console.log('Delete Brand:', brand);
 };
+
+function clear() {
+    filterForm.name = null;
+}
 </script>

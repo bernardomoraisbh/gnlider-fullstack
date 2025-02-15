@@ -43,7 +43,7 @@ const menuItems = [
 
 // Navigation Handlers
 const navigateTo = (routeName) => {
-    console.log(Ziggy.routes);
+    // console.log(Ziggy.routes);
     router.visit(route(routeName));
 };
 </script>
