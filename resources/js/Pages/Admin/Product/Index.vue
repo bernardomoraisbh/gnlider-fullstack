@@ -38,7 +38,7 @@ import { ref, computed } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
 import { route } from "ziggy";
 
-defineProps({
+const props = defineProps({
     products: Object,
     filters: Object,
 })
@@ -58,6 +58,8 @@ const textBr = {
 }
 
 const loading = ref(false);
+// Search query
+const searchQuery = ref('');
 const pagination = ref({
     page: 1,
     itemsPerPage: 10

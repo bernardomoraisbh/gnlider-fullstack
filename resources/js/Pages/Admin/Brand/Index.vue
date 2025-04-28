@@ -32,6 +32,7 @@
         </template>
     </v-data-table-server>
 </template>
+
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { ref, computed } from 'vue';
@@ -94,6 +95,7 @@ const loadBrands = (options) => {
         }
     );
 };
+
 // Methods
 const createBrand = () => {
     router.visit(route(`admin.brand.create`));
